@@ -17,7 +17,6 @@ import { User } from './users/user.entity';
       synchronize: true,
     }),
     UsersModule,
-    AuthModule,
   ],
 })
 export class AppModule {}
