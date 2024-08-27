@@ -3,7 +3,7 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
 
   @Column({ unique: true })
   email: string;
@@ -13,6 +13,9 @@ export class User {
 
   @Column()
   role: string; // 'admin' or 'customer'
+
+  @Column()
+  name: string;
 
   @Column({ default: '' })
   profile: string;

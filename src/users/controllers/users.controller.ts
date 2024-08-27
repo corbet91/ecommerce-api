@@ -10,9 +10,9 @@ import {
   Req,
   Put,
 } from '@nestjs/common';
-import { CreateUserDto } from '../dto/create-user.dto';
+import { CreateUserDto } from '../dtos/create-user.dto';
 import { AuthService } from '../services/auth.service';
-import { UpdateUserDto } from '../dto/update-user.dto';
+import { UpdateUserDto } from '../dtos/update-user.dto';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { UsersService } from '../services/users.service';
 
@@ -36,14 +36,14 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  getUser(@Param('id') id: number) {
+  getUser(@Param('id') id: string) {
     return this.usersService.findById(id);
   }
 
   @UseGuards(JwtAuthGuard)
   @Put(':id')
   async updateUser(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() credentials: UpdateUserDto
   ) {
     return this.usersService.update(id, credentials);
@@ -51,7 +51,7 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  deleteUser(@Param('id') id: number) {
+  deleteUser(@Param('id') id: string) {
     return this.usersService.delete(id);
   }
 }

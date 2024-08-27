@@ -28,8 +28,8 @@ export class AuthService {
     return user;
   }
 
-  async login(username: string, userId: string) {
-    const payload = { username, sub: userId };
+  async login(username: string, password: string) {
+    const payload = { username, sub: password };
 
     return {
       accessToken: this.jwtService.sign(payload),
@@ -46,7 +46,7 @@ export class AuthService {
     const user = await this.usersService.create({
       email,
       password: encryptedPassword,
-      isAdmin: false,
+      role: 'customer',
       name,
     });
 

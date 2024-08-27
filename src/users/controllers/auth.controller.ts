@@ -18,8 +18,11 @@
 //  import { UserDocument } from '../schemas/user.schema';
  import { AuthService } from '../services/auth.service';
  import { UsersService } from '../services/users.service';
+import { RegisterDto } from '../dtos/register.dto';
+import { User } from '../user.entity';
+import { ProfileDto } from '../dtos/profile.dto';
 
- @Serialize(UserDto)
+//  @Serialize(UserDto)
  @Controller('auth')
  export class AuthController {
    constructor(
@@ -29,12 +32,12 @@
 
    @UseGuards(LocalAuthGuard)
    @Post('login')
-   async login(@CurrentUser() user: UserDocument, @Session() session: any) {
-     const { name, _id, email, isAdmin } = user;
+   async login(@CurrentUser() user: User, @Session() session: any) {
+     const { name, password, email, role,id } = user;
 
-     const { accessToken } = await this.authService.login(name, _id);
+     const { accessToken } = await this.authService.login(name, password);
 
-     const loggedUser = { name, _id, isAdmin, email, accessToken };
+     const loggedUser = { name, id, role, email, accessToken };
 
      session.user = loggedUser;
 
@@ -59,14 +62,14 @@
    ) {
      const user = await this.authService.register(name, email, password);
 
-     const { _id, isAdmin } = user;
+     const { id, role } = user;
 
-     const { accessToken } = await this.authService.login(name, user._id);
+     const { accessToken } = await this.authService.login(name, user.id);
 
      const loggedUser = {
        name: user.name,
-       _id,
-       isAdmin,
+       id,
+       role,
        email: user.email,
        accessToken,
      };
@@ -76,23 +79,23 @@
      return loggedUser;
    }
 
-   @UseGuards(AuthGuard)
-   @Put('profile')
-   async updateUser(@Body() credentials: ProfileDto, @Session() session: any) {
-     const user = await this.usersService.update(session.user._id, credentials);
+//    @UseGuards(AuthGuard)
+//    @Put('profile')
+//    async updateUser(@Body() credentials: ProfileDto, @Session() session: any) {
+//      const user = await this.usersService.update(session.user._id, credentials);
 
-     const { name, _id, email, isAdmin } = user;
+//      const {} = user;
 
-     const updatedUser = {
-       name,
-       _id,
-       isAdmin,
-       email,
-       accessToken: session.user.accessToken,
-     };
+//      const updatedUser = {
+//        name,
+//        id,
+//        role,
+//        email,
+//        accessToken: session.user.accessToken,
+//      };
 
-     session.user = updatedUser;
+//      session.user = updatedUser;
 
-     return updatedUser;
-   }
+//      return updatedUser;
+//    }
  }

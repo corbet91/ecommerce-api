@@ -10,4 +10,7 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   role: string; // 'admin' or 'customer'
+
+  @IsNotEmpty()
+  name: string;
 }
